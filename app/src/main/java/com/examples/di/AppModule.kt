@@ -1,6 +1,9 @@
 package com.examples.di
 
+import android.content.Context
 import com.examples.common.Constants
+import com.examples.domain.local.IPawnDao
+import com.examples.domain.local.PawnDB
 import com.examples.network.repository.PawnRepositoryImpl
 import com.examples.network.repository.IPawnRepository
 import com.examples.network.IPawnApi
@@ -27,6 +30,18 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providePawnDB(context: Context): PawnDB {
+        return PawnDB.invoke(context)
+    }
+
+    @Provides
+    @Singleton
+    fun providePawnDao(pawnDB: PawnDB): IPawnDao {
+        return pawnDB.getPawnDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideRetrofit(): Retrofit =
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -40,8 +55,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePawnRepository(pawnApi: IPawnApi): IPawnRepository {
+    fun providePawnRepository(pawnApi: IPawnApi, pawnDao: IPawnDao): IPawnRepository {
         //replace test/fake repository if required, as no dependencies created in project
-        return PawnRepositoryImpl(pawnApi)
+        return PawnRepositoryImpl(pawnApi, pawnDao)
     }
 }

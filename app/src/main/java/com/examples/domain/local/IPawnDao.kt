@@ -28,7 +28,7 @@ interface IPawnDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOsPawnItem(osPawnItems: List<PawnItemEntity>)
 
-    @Query("DELETE FROM OsPawnItem WHERE Id = :id")
+    @Query("DELETE FROM OsPawnItem WHERE LoanNo = :id")
     suspend fun deleteOsPawnItem(id: Int)
 
     @Query("SELECT * FROM OsPawnItem ORDER BY Name ASC")

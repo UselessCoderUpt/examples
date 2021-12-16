@@ -5,6 +5,7 @@ import com.examples.common.Constants
 import com.examples.common.Resource
 import com.examples.domain.data.Customer
 import com.examples.domain.data.PawnItem
+import com.examples.domain.local.IPawnDao
 import com.examples.domain.local.PawnDB
 import com.examples.network.IPawnApi
 import com.examples.network.data.toCustomer
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 class PawnRepositoryImpl @Inject constructor(
     private val pawnApi: IPawnApi,
-    private val pawnDB: PawnDB
+    private val pawnDao: IPawnDao
 ) : IPawnRepository {
 
     //fetch pawn items

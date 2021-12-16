@@ -12,8 +12,8 @@ import androidx.room.RoomDatabase
 //@TypeConverters(Converters::class)
 abstract class PawnDB : RoomDatabase() {
 
-    abstract val pawnDao: IPawnDao
-    abstract fun getGroceryDao(): IPawnDao
+    //abstract val pawnDao: IPawnDao
+    abstract fun getPawnDao(): IPawnDao
 
     companion object {
         @Volatile
