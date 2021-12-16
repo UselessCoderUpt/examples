@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class PawnItemOSDto(
     @SerializedName("ID")
-    val ID: Int,
+    val LoanNo: Int,
     @SerializedName("Name")
     val Name: String,
     @SerializedName("Place")
@@ -28,7 +28,7 @@ data class PawnItemOSDto(
 
 fun PawnItemOSDto.toPawnItem(): PawnItem {
     return PawnItem(
-        ID = ID,
+        LoanNno = LoanNo,
         Date = null, // date not retrieved from api
         Name = Name,
         Place = Place,

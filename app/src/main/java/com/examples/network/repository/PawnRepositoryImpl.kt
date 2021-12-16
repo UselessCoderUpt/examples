@@ -5,7 +5,7 @@ import com.examples.common.Constants
 import com.examples.common.Resource
 import com.examples.domain.data.Customer
 import com.examples.domain.data.PawnItem
-import com.examples.network.PawnApi
+import com.examples.network.IPawnApi
 import com.examples.network.data.toCustomer
 import com.examples.network.data.toPawnItem
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +16,8 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class PawnRepositoryImpl @Inject constructor(
-    private val pawnApi: PawnApi
-) : PawnRepository {
+    private val pawnApi: IPawnApi
+) : IPawnRepository {
 
     //fetch pawn items
     override fun getOsPawnItems(): Flow<Resource<List<PawnItem>>> = flow {
@@ -101,6 +101,7 @@ class PawnRepositoryImpl @Inject constructor(
 
     //fetch customer list
     override fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
+
         var customers: List<Customer> = emptyList()
         emit(Resource.Loading())
         //TODO: Fetch from db before APi Call

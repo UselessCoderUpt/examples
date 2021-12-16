@@ -107,6 +107,22 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
 
+    //Room
+    def roomVersion = "2.4.0"
+    //room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomVersion")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation("androidx.room:room-guava:$roomVersion")
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:2.4.0")
+
+
+
     //navigation
    // def nav_version = "2.4.0-beta02"
    // implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

@@ -3,7 +3,7 @@ package com.examples.domain.data
 import java.util.*
 
 data class PawnItem(
-    val ID: Int,
+    val LoanNno: Int,
     val Date: Date?,
     val Name: String,
     val Place: String,

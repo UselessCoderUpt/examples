@@ -2,8 +2,8 @@ package com.examples.di
 
 import com.examples.common.Constants
 import com.examples.network.repository.PawnRepositoryImpl
-import com.examples.network.repository.PawnRepository
-import com.examples.network.PawnApi
+import com.examples.network.repository.IPawnRepository
+import com.examples.network.IPawnApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,12 +35,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePawnApi(retrofit: Retrofit): PawnApi =
-        retrofit.create(PawnApi::class.java)
+    fun providePawnApi(retrofit: Retrofit): IPawnApi =
+        retrofit.create(IPawnApi::class.java)
 
     @Provides
     @Singleton
-    fun providePawnRepository(pawnApi: PawnApi): PawnRepository {
+    fun providePawnRepository(pawnApi: IPawnApi): IPawnRepository {
         //replace test/fake repository if required, as no dependencies created in project
         return PawnRepositoryImpl(pawnApi)
     }

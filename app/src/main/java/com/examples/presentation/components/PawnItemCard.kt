@@ -35,7 +35,7 @@ fun PawnItemCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Loan No: ${pawnItem.ID}. Name:${pawnItem.Name} ",
+                text = "Loan No: ${pawnItem.LoanNno}. Name:${pawnItem.Name} ",
                 style = MaterialTheme.typography.body1,
                 overflow = TextOverflow.Visible,
                 fontWeight = FontWeight.Bold

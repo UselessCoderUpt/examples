@@ -6,7 +6,7 @@ import com.examples.domain.data.PawnItem
 import kotlinx.coroutines.flow.Flow
 
 //Fake repository can be used for testing with the help of interface implementation
-interface PawnRepository {
+interface IPawnRepository {
     fun getOsPawnItems(): Flow<Resource<List<PawnItem>>>
     fun getTodaysRenewalList(): Flow<Resource<List<PawnItem>>>
     fun getCustomers(): Flow<Resource<List<Customer>>>

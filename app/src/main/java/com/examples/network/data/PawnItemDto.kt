@@ -8,7 +8,7 @@ import java.util.*
 
 data class PawnItemDto(
     @SerializedName("ID")
-    val ID: Int,
+    val LoanNo: Int,
     @SerializedName("Date")
     val Date: Date,
     @SerializedName("Name")
@@ -38,7 +38,7 @@ data class PawnItemDto(
 // mapper function to convert DTO object to Domain data model
 fun PawnItemDto.toPawnItem(): PawnItem {
     return PawnItem(
-        ID = ID,
+        LoanNno = LoanNo,
         Date = Date,
         Name = Name,
         Place = Place,

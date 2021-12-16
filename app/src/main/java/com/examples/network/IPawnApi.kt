@@ -4,7 +4,7 @@ import com.examples.network.data.CustomerResponse
 import com.examples.network.data.PawnResponse
 import retrofit2.http.GET
 
-interface PawnApi {
+interface IPawnApi {
 
     //Fetches pawn items that are not released to till date
     //https://script.google.com/macros/s/AKfycbw6bVFuM-tKXDW5xwMQxs53_q7oN58G1P2L_6U5RKzV_vQljM6tCOqx8VhZ9FVyX5dZ/exec
