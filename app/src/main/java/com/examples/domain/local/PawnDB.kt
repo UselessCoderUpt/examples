@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.examples.domain.util.Converters
 
 @Database(
-    entities = [CustomerEntity::class, PawnItemEntity::class],
+    entities = [CustomerEntity::class, PawnItemEntity::class, TodaysRenewalEntity::class],
     version = 1
 )
-//@TypeConverters(Converters::class)
+@TypeConverters(Converters::class)
 abstract class PawnDB : RoomDatabase() {
 
     //abstract val pawnDao: IPawnDao

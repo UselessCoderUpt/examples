@@ -6,7 +6,6 @@ import com.examples.common.Resource
 import com.examples.domain.data.Customer
 import com.examples.domain.data.PawnItem
 import com.examples.domain.local.IPawnDao
-import com.examples.domain.local.PawnDB
 import com.examples.network.IPawnApi
 import com.examples.network.data.toCustomer
 import com.examples.network.data.toPawnItem
@@ -22,18 +21,23 @@ class PawnRepositoryImpl @Inject constructor(
     private val pawnDao: IPawnDao
 ) : IPawnRepository {
 
-    //fetch pawn items
-    override fun getOsPawnItems(): Flow<Resource<List<PawnItem>>> = flow {
+    //OS pawn items related member implementation
+    override suspend fun insertOsPawnItem(pawnItems: List<PawnItem>) {
+        pawnDao.insertOsPawnItem(pawnItems.map { it.toPawnItemEntity()})
+    }
 
-        var osPawnItems: List<PawnItem> = listOf()
-        emit(Resource.Loading())
-        //TODO: Fetch from db before APi Call
-        //osPawnItems = dao.getOsPawnItems().map { it.toPawnItem() }
-        //emit(Resource.Loading(data = osPawnItems))
+    override suspend fun deleteOsPawnItem(loanNo: Int) {
+        pawnDao.deleteOsPawnItem(loanNo)
+    }
+
+    override suspend fun getOsPawnItems(): Flow<Resource<List<PawnItem>>> = flow {
+
+        var osPawnItems = pawnDao.getOsPawnItems().value?.map { it.toPawnItem() }
+        emit(Resource.Loading(osPawnItems))
 
         try {
             //convert each response dto to data model
-            osPawnItems = pawnApi.getOsPawnItems().result.map { it.toPawnItem() }
+            osPawnItems = pawnApi.getOsPawnItems().response.map { it.toPawnItem() }
             emit(Resource.Success(osPawnItems))
         } catch (e: HttpException) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())
@@ -62,18 +66,23 @@ class PawnRepositoryImpl @Inject constructor(
         }
     }
 
-    //fetch todays renewal list
-    override fun getTodaysRenewalList(): Flow<Resource<List<PawnItem>>> = flow {
+    //Today's Renewal items related member implementation
+    override suspend fun insertTodaysRenewal(pawnItems: List<PawnItem>) {
+        pawnDao.insertTodaysRenewal(pawnItems.map{ it.toTodaysRenewalEntity()})
+    }
 
-        var pawnItems: List<PawnItem> = listOf()
-        emit(Resource.Loading())
-        //TODO: Fetch from db before APi Call
-        //pawnItems = dao.getOsPawnItems().map { it.toPawnItem() }
-        //emit(Resource.Loading(data = pawnItems))
+    override suspend fun deleteTodaysRenewal(loanNo: Int) {
+        pawnDao.deleteTodaysRenewal(loanNo)
+    }
+
+    override suspend fun getTodaysRenewalList(): Flow<Resource<List<PawnItem>>> = flow {
+
+        var pawnItems = pawnDao.getTodaysRenewals().value?.map { it.toPawnItem() }
+        emit(Resource.Loading(pawnItems))
 
         try {
             //convert each response dto to data model
-            pawnItems = pawnApi.getTodaysRenewalList().result.map { it.toPawnItem() }
+            pawnItems = pawnApi.getTodaysRenewalList().response.map { it.toPawnItem() }
             emit(Resource.Success(pawnItems))
         } catch (e: HttpException) {
             Log.d(Constants.TAG, "Error" + e.message.toString())
@@ -102,17 +111,22 @@ class PawnRepositoryImpl @Inject constructor(
         }
     }
 
-    //fetch customer list
-    override fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
+    //Customer related member implementation
+    override suspend fun insertCustomer(customers: List<Customer>) {
+        pawnDao.insertCustomer(customers.map { it.toCustomerEntity()})
+    }
 
-        var customers: List<Customer> = emptyList()
-        emit(Resource.Loading())
-        //TODO: Fetch from db before APi Call
-        //customers = dao.getCustomers().map { it.toCustomer() }
-        //emit(Resource.Loading(data = pawnItems))
+    override suspend fun deleteCustomer(mobileNo: String) {
+        pawnDao.deleteCustomer(mobileNo)
+    }
+
+    override suspend fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
+
+        var customers = pawnDao.getCustomers().value?.map { it.toCustomer() }
+        emit(Resource.Loading(customers))
         try {
             //convert each response dto to data model
-            customers = pawnApi.getCustomers().result.map { it.toCustomer() }
+            customers = pawnApi.getCustomers().response.map { it.toCustomer() }
             emit(Resource.Success(customers))
         } catch (e: HttpException) {
             Log.d(Constants.TAG, "Error" + e.message.toString())

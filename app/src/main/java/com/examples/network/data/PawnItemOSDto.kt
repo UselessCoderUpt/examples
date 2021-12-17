@@ -7,7 +7,7 @@ data class PawnItemOSDto(
     @SerializedName("ID")
     val LoanNo: Int,
     @SerializedName("Name")
-    val Name: String,
+    val CustomerName: String,
     @SerializedName("Place")
     val Place: String,
     @SerializedName("Mobile number")
@@ -28,9 +28,9 @@ data class PawnItemOSDto(
 
 fun PawnItemOSDto.toPawnItem(): PawnItem {
     return PawnItem(
-        LoanNno = LoanNo,
+        LoanNo = LoanNo,
         Date = null, // date not retrieved from api
-        Name = Name,
+        CustomerName = CustomerName,
         Place = Place,
         MobileNo = MobileNo,
         ItemName = ItemName,

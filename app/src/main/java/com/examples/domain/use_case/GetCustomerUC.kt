@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetCustomerUC @Inject constructor(
     private val repository: IPawnRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Customer>>> {
+    suspend operator fun invoke(): Flow<Resource<List<Customer>>> {
         return repository.getCustomers()
     }
 }

@@ -12,7 +12,7 @@ data class PawnItemDto(
     @SerializedName("Date")
     val Date: Date,
     @SerializedName("Name")
-    val Name: String,
+    val CustomerName: String,
     @SerializedName("Place")
     val Place: String,
     @SerializedName("Mobile number")
@@ -38,9 +38,9 @@ data class PawnItemDto(
 // mapper function to convert DTO object to Domain data model
 fun PawnItemDto.toPawnItem(): PawnItem {
     return PawnItem(
-        LoanNno = LoanNo,
+        LoanNo = LoanNo,
         Date = Date,
-        Name = Name,
+        CustomerName = CustomerName,
         Place = Place,
         MobileNo = MobileNo,
         ItemName = ItemName,

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetTodaysRenewalUC @Inject constructor(
     private val repository: IPawnRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<PawnItem>>> {
+    suspend operator fun invoke(): Flow<Resource<List<PawnItem>>> {
         return repository.getTodaysRenewalList()
     }
 }

@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 // response is returned inside pawnitems array
 data class PawnResponse(
     @SerializedName("pawnitems")
-    val result: List<PawnItemDto>
+    val response: List<PawnItemDto>
 )

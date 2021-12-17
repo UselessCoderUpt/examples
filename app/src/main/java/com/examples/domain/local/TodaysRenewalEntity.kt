@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 import com.examples.domain.data.PawnItem
 import java.util.*
 
-@Entity(tableName = "OsPawnItem")
-data class PawnItemEntity(
+@Entity(tableName = "TodaysRenewal")
+data class TodaysRenewalEntity(
     @PrimaryKey
     val LoanNo: Int,
     val Date: Date?,
