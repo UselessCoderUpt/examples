@@ -25,7 +25,7 @@ class PawnTodaysRenewalViewModel @Inject constructor(
         getTodaysRenewalList()
     }
     
-    private fun getTodaysRenewalList() {
+    private suspend fun getTodaysRenewalList() {
         getTodaysRenewalUC().onEach { result ->
             when (result) {
                 is Resource.Success -> {

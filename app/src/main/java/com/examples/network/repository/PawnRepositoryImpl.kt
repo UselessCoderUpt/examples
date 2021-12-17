@@ -32,7 +32,7 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun getOsPawnItems(): Flow<Resource<List<PawnItem>>> = flow {
 
-        var osPawnItems = pawnDao.getOsPawnItems().value?.map { it.toPawnItem() }
+        var osPawnItems = pawnDao.getOsPawnItems()?.map { it.toPawnItem() }
         emit(Resource.Loading(osPawnItems))
 
         try {
@@ -77,7 +77,7 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun getTodaysRenewalList(): Flow<Resource<List<PawnItem>>> = flow {
 
-        var pawnItems = pawnDao.getTodaysRenewals().value?.map { it.toPawnItem() }
+        var pawnItems = pawnDao.getTodaysRenewals()?.map { it.toPawnItem() }
         emit(Resource.Loading(pawnItems))
 
         try {
@@ -122,7 +122,7 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
 
-        var customers = pawnDao.getCustomers().value?.map { it.toCustomer() }
+        var customers = pawnDao.getCustomers()?.map { it.toCustomer() }
         emit(Resource.Loading(customers))
         try {
             //convert each response dto to data model
