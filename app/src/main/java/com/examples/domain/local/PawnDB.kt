@@ -30,6 +30,11 @@ abstract class PawnDB : RoomDatabase() {
 
         private fun createDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext, PawnDB::class.java, "Pawn_db.db")
+                // Wipes and rebuilds instead of migrating if no Migration object.
+                // Migration is not part of this lesson. You can learn more about
+                // migration with Room in this blog post:
+                // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
+//                .fallbackToDestructiveMigration()
                 .build()
     }
 }

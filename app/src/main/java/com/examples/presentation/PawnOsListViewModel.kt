@@ -5,11 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.examples.common.Resource
+import com.examples.common.ViewState
 import com.examples.domain.data.PawnItem
 import com.examples.domain.use_case.GetOsPawnUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,22 +23,24 @@ class PawnOsListViewModel @Inject constructor(
     val state: State<ViewState<PawnItem>> = _state
 
     init {
-        getOsPawnItems()
+        viewModelScope.launch {
+            getOsPawnItems()
+        }
     }
 
-    private fun getOsPawnItems() {
+    private suspend fun getOsPawnItems() {
         getOsPawnUC().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = ViewState(items = result.data ?: emptyList())
+                    _state.value = ViewState<PawnItem>(items = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = ViewState(
+                    _state.value = ViewState<PawnItem>(
                         error = result.message ?: "An Unexpected error occurred"
                     )
                 }
                 is Resource.Loading -> {
-                    _state.value = ViewState(isLoading = true)
+                    _state.value = ViewState<PawnItem>(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

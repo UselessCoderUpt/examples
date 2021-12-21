@@ -2,12 +2,11 @@ package com.examples.presentation
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.examples.common.Resource
+import com.examples.common.ViewState
 import com.examples.domain.data.Customer
-import com.examples.domain.data.PawnItem
 import com.examples.domain.use_case.GetCustomerUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,14 +23,16 @@ class CustomerListViewModel @Inject constructor(
     val query = mutableStateOf("") //for search persistence
     private val _state = mutableStateOf(ViewState<Customer>())
     val state: State<ViewState<Customer>> = _state
-    private var cachedCustomers: List<Customer> = emptyList()
-    var isSearched = mutableStateOf(false)
+    private var cachedCustomers: List<Customer>? = emptyList()
+    private var isSearched = mutableStateOf(false)
 
     init {
-        getCustomers()
+        viewModelScope.launch {
+            getCustomers()
+        }
     }
 
-    private fun getCustomers() {
+    private suspend fun getCustomers() {
         getCustomerUC().onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -46,14 +47,15 @@ class CustomerListViewModel @Inject constructor(
                     _state.value = ViewState(isLoading = true)
                 }
             }
-        }.launchIn(viewModelScope)
+        }
+            //.launchIn(viewModelScope)
     }
 
     fun newSearch(query: String) {
 
         val trimmedQuery = query.trim() //avoid trimming in multiple places
 
-        //cache customers from viewState for search
+        //cache customers from Resource for search
         if (!isSearched.value) {
             cachedCustomers = _state.value.items
             isSearched.value = true
@@ -64,12 +66,12 @@ class CustomerListViewModel @Inject constructor(
                 _state.value = ViewState(items = cachedCustomers ?: emptyList())
                 return@launch
             }
-            val results = cachedCustomers.filter {
+            val results = cachedCustomers?.filter {
                 it.Name.contains(trimmedQuery, ignoreCase = true) ||
                         it.MobileNo.startsWith(trimmedQuery, ignoreCase = true) ||
                         it.Place.startsWith(trimmedQuery, ignoreCase = true)
             }
-            results.sortedBy { it.Name }
+            results?.sortedBy { it.Name }
             _state.value = ViewState(items = results ?: emptyList())
         }
     }

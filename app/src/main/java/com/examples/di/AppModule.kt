@@ -10,6 +10,7 @@ import com.examples.network.IPawnApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,13 +31,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePawnDB(context: Context): PawnDB {
-        return PawnDB.invoke(context)
+    fun providePawnDB(@ApplicationContext context: Context): PawnDB {
+        return PawnDB(context)
     }
 
     @Provides
     @Singleton
-    fun providePawnDao(pawnDB: PawnDB): IPawnDao {
+    fun providePawnDao(pawnDB: PawnDB) : IPawnDao {
         return pawnDB.getPawnDao()
     }
 

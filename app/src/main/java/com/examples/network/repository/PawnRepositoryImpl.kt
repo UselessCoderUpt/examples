@@ -3,6 +3,7 @@ package com.examples.network.repository
 import android.util.Log
 import com.examples.common.Constants
 import com.examples.common.Resource
+import com.examples.common.ViewState
 import com.examples.domain.data.Customer
 import com.examples.domain.data.PawnItem
 import com.examples.domain.local.IPawnDao
@@ -32,29 +33,13 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun getOsPawnItems(): Flow<Resource<List<PawnItem>>> = flow {
 
-        var osPawnItems = pawnDao.getOsPawnItems()?.map { it.toPawnItem() }
+        var osPawnItems = pawnDao.getOsPawnItems().map { it.toPawnItem() }
         emit(Resource.Loading(osPawnItems))
 
         try {
             //convert each response dto to data model
             osPawnItems = pawnApi.getOsPawnItems().response.map { it.toPawnItem() }
             emit(Resource.Success(osPawnItems))
-        } catch (e: HttpException) {
-            Log.d(Constants.TAG, "UC Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = "Oops, something went wrong!",
-                    data = osPawnItems
-                )
-            )
-        } catch (e: IOException) {
-            Log.d(Constants.TAG, "UC Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = "Couldn't reach server, check your internet connection.",
-                    data = osPawnItems
-                )
-            )
         } catch (e: Exception) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())
             emit(
@@ -77,29 +62,13 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun getTodaysRenewalList(): Flow<Resource<List<PawnItem>>> = flow {
 
-        var pawnItems = pawnDao.getTodaysRenewals()?.map { it.toPawnItem() }
+        var pawnItems = pawnDao.getTodaysRenewals().map { it.toPawnItem() }
         emit(Resource.Loading(pawnItems))
 
         try {
             //convert each response dto to data model
             pawnItems = pawnApi.getTodaysRenewalList().response.map { it.toPawnItem() }
             emit(Resource.Success(pawnItems))
-        } catch (e: HttpException) {
-            Log.d(Constants.TAG, "Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = "Oops, something went wrong!",
-                    data = pawnItems
-                )
-            )
-        } catch (e: IOException) {
-            Log.d(Constants.TAG, "Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = "Couldn't reach server, check your internet connection.",
-                    data = pawnItems
-                )
-            )
         } catch (e: Exception) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())
             emit(
@@ -122,29 +91,13 @@ class PawnRepositoryImpl @Inject constructor(
 
     override suspend fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
 
-        var customers = pawnDao.getCustomers()?.map { it.toCustomer() }
+        var customers = pawnDao.getCustomers().map { it.toCustomer() }
         emit(Resource.Loading(customers))
         try {
             //convert each response dto to data model
             customers = pawnApi.getCustomers().response.map { it.toCustomer() }
             emit(Resource.Success(customers))
-        } catch (e: HttpException) {
-            Log.d(Constants.TAG, "Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = "Oops, something went wrong!",
-                    data = customers
-                )
-            )
-        } catch (e: IOException) {
-            Log.d(Constants.TAG, "Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = "Couldn't reach server, check your internet connection.",
-                    data = customers
-                )
-            )
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())
             emit(
                 Resource.Error(
@@ -153,6 +106,21 @@ class PawnRepositoryImpl @Inject constructor(
                 )
             )
         }
-
     }
+
+    /*suspend fun getBlogs(): kotlinx.coroutines.flow.Flow<DataState<List<Blog>>> = flow {
+        emit(DataState.Loading)
+        delay(1000)
+        try{
+            val networkBlogs = blogRetrofit.get()
+            val blogs = networkMapper.mapFromEntityList(networkBlogs)
+            for(blog in blogs){
+                blogDao.insert(cacheMapper.mapToEntity(blog))
+            }
+            val cachedBlogs = blogDao.get()
+            emit(DataState.Success(cacheMapper.mapFromEntityList(cachedBlogs)))
+        }catch (e: Exception){
+            emit(DataState.Error(e))
+        }
+    } */
 }

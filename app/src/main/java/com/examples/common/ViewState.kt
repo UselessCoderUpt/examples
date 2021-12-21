@@ -1,6 +1,4 @@
-package com.examples.presentation
-
-import com.examples.domain.data.PawnItem
+package com.examples.common
 
 //data class PawnListState(
 //    val isLoading: Boolean = false,
@@ -13,3 +11,9 @@ data class ViewState<T>(
     val items: List<T> = emptyList(),
     val error: String = ""
 )
+
+/*data class ViewState<T>(
+    val isLoading: Boolean = false,
+    val items: List<T> = emptyList(),
+    val error: String = ""
+)*/
