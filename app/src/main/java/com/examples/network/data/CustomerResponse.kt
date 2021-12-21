@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 // response is returned inside customers array
 data class CustomerResponse(
     @SerializedName("customers")
-    val response: List<CustomerDto>
+    val response: List<CustomerDto>?
 )

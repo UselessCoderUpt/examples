@@ -3,7 +3,6 @@ package com.examples.network.repository
 import android.util.Log
 import com.examples.common.Constants
 import com.examples.common.Resource
-import com.examples.common.ViewState
 import com.examples.domain.data.Customer
 import com.examples.domain.data.PawnItem
 import com.examples.domain.local.IPawnDao
@@ -12,8 +11,6 @@ import com.examples.network.data.toCustomer
 import com.examples.network.data.toPawnItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -38,7 +35,7 @@ class PawnRepositoryImpl @Inject constructor(
 
         try {
             //convert each response dto to data model
-            osPawnItems = pawnApi.getOsPawnItems().response.map { it.toPawnItem() }
+            osPawnItems = pawnApi.getOsPawnItems().response!!.map { it.toPawnItem() }
             emit(Resource.Success(osPawnItems))
         } catch (e: Exception) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())
@@ -67,7 +64,7 @@ class PawnRepositoryImpl @Inject constructor(
 
         try {
             //convert each response dto to data model
-            pawnItems = pawnApi.getTodaysRenewalList().response.map { it.toPawnItem() }
+            pawnItems = pawnApi.getTodaysRenewalList().response!!.map { it.toPawnItem() }
             emit(Resource.Success(pawnItems))
         } catch (e: Exception) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())
@@ -90,12 +87,17 @@ class PawnRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
+        Log.d(Constants.TAG, "Inside getCustomers repo")
 
         var customers = pawnDao.getCustomers().map { it.toCustomer() }
+        Log.d(Constants.TAG, "Customer count from dao" + customers.size)
+
         emit(Resource.Loading(customers))
         try {
+            Log.d(Constants.TAG, "Inside getCustomers repo")
+
             //convert each response dto to data model
-            customers = pawnApi.getCustomers().response.map { it.toCustomer() }
+            customers = pawnApi.getCustomers().response!!.map { it.toCustomer() }
             emit(Resource.Success(customers))
         } catch (e: Exception) {
             Log.d(Constants.TAG, "UC Error" + e.message.toString())

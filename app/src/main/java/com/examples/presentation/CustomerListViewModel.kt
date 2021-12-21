@@ -47,14 +47,12 @@ class CustomerListViewModel @Inject constructor(
                     _state.value = ViewState(isLoading = true)
                 }
             }
-        }
-            //.launchIn(viewModelScope)
+        }.launchIn(viewModelScope)
     }
 
     fun newSearch(query: String) {
 
         val trimmedQuery = query.trim() //avoid trimming in multiple places
-
         //cache customers from Resource for search
         if (!isSearched.value) {
             cachedCustomers = _state.value.items

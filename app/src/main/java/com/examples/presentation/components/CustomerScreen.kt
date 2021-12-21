@@ -1,6 +1,7 @@
 package com.examples.presentation.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,11 +14,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,11 +35,18 @@ fun CustomerScreen(
     viewModel: CustomerListViewModel = hiltViewModel()
 ) {
     //val query = viewModel.query.value
+    val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     Surface(
         elevation = 8.dp,
         color = MaterialTheme.colors.surface,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onPress = {
+                    focusManager.clearFocus()
+                })
+            }
     ) {
         Column(
             modifier = Modifier
@@ -50,21 +58,32 @@ fun CustomerScreen(
                         .fillMaxWidth()
                         //.shadow(5.dp)
                         .padding(6.dp)
-                        .onFocusChanged {
-                            //isHintDisplayed = !it.isFocused && text.isEmpty()
-                            //focusManager.clearFocus()
-                        },
+                        .focusRequester(focusRequester),
+//                        .onFocusChanged {focusState ->
+//                            when {
+//                                focusState.isFocused ->
+//                                    println("I'm focused!")
+//                                focusState.hasFocus ->
+//                                    println("A child of mine has focus!")
+//
+//                            }
+//                            //isHintDisplayed = !it.isFocused && text.isEmpty()
+//                           // focusManager.clearFocus()
+//                        },
                     value = viewModel.query.value,
                     maxLines = 1,
                     singleLine = true,
-                    onValueChange = { viewModel.query.value = it },
+                    onValueChange = {
+                        viewModel.query.value = it
+                        viewModel.newSearch(viewModel.query.value)
+                    },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Search
                     ),
                     keyboardActions = KeyboardActions(
                         onSearch = {
-                            viewModel.newSearch(viewModel.query.value)
+                            //viewModel.newSearch(viewModel.query.value)
                             focusManager.clearFocus()
                         }
                     ),
@@ -79,7 +98,7 @@ fun CustomerScreen(
                     shape = RoundedCornerShape(4.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = MaterialTheme.colors.secondary
-                    )
+                    ),
                 )
             }
             CustomerList(navController = navController)
@@ -97,6 +116,11 @@ fun CustomerList(
         modifier = Modifier
             .fillMaxSize()
             .border(width = 2.dp, color = Color.Green)
+//            .pointerInput(Unit) {
+//                detectTapGestures(onTap = {
+//                    focusManager.clearFocus()
+//                })
+//            }
     ) {
         Text(
             text = "OUTSTANDING LIST",
