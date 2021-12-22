@@ -1,4 +1,4 @@
-package com.examples.presentation
+package com.examples.presentation.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.*

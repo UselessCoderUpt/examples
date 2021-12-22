@@ -3,12 +3,23 @@ package com.examples
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.examples.presentation.components.CustomerListScreen
+import com.examples.presentation.components.HomeScreen
+import com.examples.presentation.components.PawnOsListScreen
+import com.examples.presentation.ui.BottomNavBar
+import com.examples.presentation.ui.BottomNavDestination
 import com.examples.presentation.ui.NavGraph
+import com.examples.presentation.ui.PawnTodaysRenewalScreen
 import com.examples.ui.theme.ExamplesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,26 +29,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ExamplesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    //ProfilePage()
-                    val navController = rememberNavController()
-                    NavGraph(navController = navController)
-                }
+                NavGraph()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ExamplesTheme {
-        Greeting("Android")
     }
 }

@@ -1,180 +1,102 @@
 package com.examples.presentation.components
 
-import android.util.Log
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
-import com.examples.presentation.PawnItemCard
-import com.examples.presentation.PawnOsListViewModel
-import java.util.logging.Logger
-import androidx.compose.material.Icon
+import com.examples.R
 
 @Composable
-fun HomeScreen(
-    navController: NavController,
-    viewModel: PawnOsListViewModel = hiltViewModel()
-) {
-    Surface(
-        elevation = 8.dp,
-        color = MaterialTheme.colors.background,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            SearchBar(
-                hint = "Search",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                //viewModel.searchPokemonList(it)
-            }
-            PawnList(navController = navController)
-        }
-    }
-}
-
-@Composable
-fun PawnList(
-    navController: NavController,
-    viewModel: PawnOsListViewModel = hiltViewModel()
-) {
-    val state = viewModel.state.value
-    Log.d("Rj pi count", state.items.size.toString())
-
-    Box(
+fun HomeScreen(navController: NavController) {
+    Card(
+        elevation = 6.dp,
         modifier = Modifier
             .fillMaxSize()
-            .border(width = 2.dp, color = Color.Green)
+            .padding(top = 100.dp, bottom = 100.dp, start = 16.dp, end = 16.dp)
+           // .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(30.dp))
     ) {
-        Text(
-            text = "OUTSTANDING LIST",
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.Bold
-        )
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.items) { pawnItem ->
-                PawnItemCard(
-                    pawnItem = pawnItem,
-                    onItemClick = {
-                        //navController.navigate()
-                        //redirect to details screen
-                    }
-                )
-            }
-        }
-        if (state.error.isNotBlank()) {
+        ConstraintLayout(modifier = Modifier.verticalScroll(rememberScrollState())){
+            val (image, nameText, placeText, rowStats) = createRefs()
+            val guideline = createGuidelineFromTop(0.05f)
+            Image(
+                painter = painterResource(id =  R.drawable.screenshot),
+                contentDescription = "Geetha",
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, color = Color.Blue, shape = CircleShape)
+                    .constrainAs(image) {
+                        //top.linkTo(parent.top)
+                        top.linkTo(guideline)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        //centerVerticallyTo(parent)
+                    },
+                contentScale = ContentScale.FillBounds
+            )
             Text(
-                text = state.error,
-                color = MaterialTheme.colors.error,
-                textAlign = TextAlign.Center,
+                text = "Geetha Jewellery",
+                fontWeight = FontWeight.ExtraBold,
+                fontSize =  18.sp,
+                modifier = Modifier.constrainAs(nameText){
+                    top.linkTo(image.bottom, margin = 16.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    width = Dimension.wrapContent
+                }
+            )
+            Text(
+                text = "Ulundurpet",
+                modifier = Modifier.constrainAs(placeText){
+                    top.linkTo(nameText.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                })
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .align(Alignment.Center)
-            )
-        }
-        if (state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    .padding(12.dp)
+                    .constrainAs(rowStats) {
+                        top.linkTo(placeText.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ProfileStats("10", "pledges")
+                ProfileStats("2", "renewals")
+                ProfileStats("0", "outstanding")
+            }
         }
     }
 }
 
 @Composable
-fun SearchBarMitch(
-    modifier: Modifier = Modifier,
-    hint: String = "",
-    onSearch: (String) -> Unit = {}
-) {
-//    var text by remember {
-//        mutableStateOf("")
-//    }
-//    var isHintDisplayed by remember {
-//        mutableStateOf(hint != "")
-//    }
-
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(5.dp, CircleShape)
-            .background(Color.White, CircleShape)
-            .padding(8.dp)
-            .onFocusChanged {
-                //isHintDisplayed = it != FocusState.Active && text.isEmpty()
-            },
-        value = hint,
-        label = { Text(text = hint) }, //TODO: Hardcoded string
-        maxLines = 1,
-        singleLine = true,
-        onValueChange = { newValue ->
-            onSearch(newValue)
-//            text = it
-//            onSearch(it)
-        },
-        leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = null) }
-    )
-}
-
-@Composable
-fun SearchBar(
-    modifier: Modifier = Modifier,
-    hint: String = "",
-    onSearch: (String) -> Unit = {}
-) {
-    var text by remember {
-        mutableStateOf("")
-    }
-    var isHintDisplayed by remember {
-        mutableStateOf(hint != "")
+fun ProfileStats(count: String, title: String) {
+    Column(
+//        modifier = Modifier
+//            .border(2.dp, color = Color.Black),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "$count", fontWeight = FontWeight.Bold)
+        Text(text = "$title")
     }
 
-    Box(modifier = modifier) {
-        BasicTextField(
-            value = text,
-            onValueChange = {
-                text = it
-                onSearch(it)
-            },
-            maxLines = 1,
-            singleLine = true,
-            textStyle = TextStyle(color = Color.Black),
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(5.dp, CircleShape)
-                .background(Color.White, CircleShape)
-                .padding(horizontal = 20.dp, vertical = 12.dp)
-                .onFocusChanged {
-                    isHintDisplayed = !it.isFocused && text.isEmpty()
-                }
-        )
-        if (isHintDisplayed) {
-            Text(
-                text = hint,
-                color = Color.LightGray,
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
-            )
-        }
-    }
 }

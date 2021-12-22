@@ -1,6 +1,7 @@
 package com.examples.presentation.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,15 +11,18 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,11 +30,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.examples.presentation.CustomerCard
+import com.examples.R
+import com.examples.presentation.components.CustomerCard
 import com.examples.presentation.CustomerListViewModel
 
 @Composable
-fun CustomerScreen(
+fun CustomerListScreen(
     navController: NavController,
     viewModel: CustomerListViewModel = hiltViewModel()
 ) {
@@ -42,6 +47,7 @@ fun CustomerScreen(
         color = MaterialTheme.colors.surface,
         modifier = Modifier
             .fillMaxSize()
+            // clear focus when clicked outside of search bar
             .pointerInput(Unit) {
                 detectTapGestures(onPress = {
                     focusManager.clearFocus()
@@ -87,17 +93,29 @@ fun CustomerScreen(
                             focusManager.clearFocus()
                         }
                     ),
-                    label = { Text(text = "Search") },
+                    label = { Text(text = stringResource(R.string.Search)) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = null,
-                            tint = MaterialTheme.colors.primary
+                            //tint = MaterialTheme.colors.secondary
                         )
                     },
-                    shape = RoundedCornerShape(4.dp),
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .offset(x = 10.dp)
+                                .clickable {
+                                    viewModel.query.value = "" //reset grid when close is clicked
+                                    viewModel.newSearch(viewModel.query.value)
+                                }
+                        )
+                    },
+                    shape = RoundedCornerShape(14.dp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.secondary
+                        //backgroundColor = MaterialTheme.colors.secondary
                     ),
                 )
             }

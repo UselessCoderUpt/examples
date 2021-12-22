@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">examples</string>
+    <string name="Search">தேடு</string>
+    <string name="Home">Home</string>
+    <string name="Customer">Customer</string>
+    <string name="Pledges">Pledges</string>
+    <string name="TodaysOsPledges">Today</string>
 </resources>
