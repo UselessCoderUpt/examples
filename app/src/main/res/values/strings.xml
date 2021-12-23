@@ -5,4 +5,14 @@
     <string name="Customer">Customer</string>
     <string name="Pledges">Pledges</string>
     <string name="TodaysOsPledges">Today</string>
+    <string name="lbl_Loan">Loan #\t\t</string>
+    <string name="lbl_Weight">Weight\t\t</string>
+    <string name="lbl_Amount">Amount\t</string>
+    <string name="lbl_Interest">Interest\t</string>
+    <string name="lbl_Total">Total\t\t\t\t</string>
+    <string name="lbl_Name">Name</string>
+    <string name="lbl_Mobile">Mobile\t\t</string>
+    <string name="lbl_Place">Place\t\t\t</string>
+    <string name="lbl_ItemType">Type\t\t\t\t</string>
+    <string name="lbl_ItemName">Item\t\t\t\t</string>
 </resources>

@@ -23,7 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.examples.presentation.PawnItemCard
 import com.examples.presentation.PawnOsListViewModel
 import java.util.logging.Logger
 import androidx.compose.material.Icon

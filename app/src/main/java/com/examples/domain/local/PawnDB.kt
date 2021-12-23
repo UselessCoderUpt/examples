@@ -9,7 +9,7 @@ import com.examples.domain.util.Converters
 
 @Database(
     entities = [CustomerEntity::class, PawnItemEntity::class, TodaysRenewalEntity::class],
-    version = 1
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class PawnDB : RoomDatabase() {
@@ -34,7 +34,7 @@ abstract class PawnDB : RoomDatabase() {
                 // Migration is not part of this lesson. You can learn more about
                 // migration with Room in this blog post:
                 // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
-//                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .build()
     }
 }

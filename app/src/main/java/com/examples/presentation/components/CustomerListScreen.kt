@@ -145,7 +145,11 @@ fun CustomerList(
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold
         )
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentPadding = PaddingValues(top=5.dp, bottom = 5.dp, start = 5.dp, end = 5.dp)
+        ) {
             items(state.items) { customer ->
                 CustomerCard(
                     customer = customer,

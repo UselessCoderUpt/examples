@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.examples.presentation.components.CustomerListScreen
 import com.examples.presentation.components.HomeScreen
 import com.examples.presentation.components.PawnOsListScreen
+import com.examples.presentation.components.PawnTodaysRenewalScreen
 
 @Composable
 fun NavGraph() {

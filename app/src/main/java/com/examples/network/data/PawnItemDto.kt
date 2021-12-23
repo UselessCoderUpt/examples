@@ -32,7 +32,8 @@ data class PawnItemDto(
     @JsonAdapter(EmptyStringAsNullTypeAdapter::class)
     val TotalAmount: Double?,
     @SerializedName("Total Mon")
-    val TotalMonths: Double
+    @JsonAdapter(EmptyStringAsNullTypeAdapter::class)
+    val TotalMonths: Int?
 )
 
 // mapper function to convert DTO object to Domain data model

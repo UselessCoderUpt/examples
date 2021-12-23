@@ -24,14 +24,14 @@ fun CustomerCard(
         elevation = 3.dp,
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 5.dp, end = 5.dp, top = 7.dp)
+            //.padding(start = 5.dp, end = 5.dp, top = 7.dp)
         // .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(30.dp))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 // .clickable { onItemClick(customer) }
-                .padding(20.dp),
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

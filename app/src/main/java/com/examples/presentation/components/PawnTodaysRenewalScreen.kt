@@ -1,9 +1,6 @@
-package com.examples.presentation.ui
+package com.examples.presentation.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
@@ -17,8 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.examples.presentation.PawnItemCard
 import com.examples.presentation.PawnTodaysRenewalViewModel
+import com.examples.presentation.components.PawnItemCard
 
 @Composable
 fun PawnTodaysRenewalScreen(
@@ -32,7 +29,11 @@ fun PawnTodaysRenewalScreen(
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold
         )
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentPadding = PaddingValues(all = 7.dp)
+        ) {
             items(state.items) { pawnItem ->
                 PawnItemCard(
                     pawnItem = pawnItem,
@@ -43,7 +44,7 @@ fun PawnTodaysRenewalScreen(
                 )
             }
         }
-        if(state.error.isNotBlank()){
+        if (state.error.isNotBlank()) {
             Text(
                 text = state.error,
                 color = MaterialTheme.colors.error,
@@ -54,7 +55,7 @@ fun PawnTodaysRenewalScreen(
                     .align(Alignment.Center)
             )
         }
-        if(state.isLoading){
+        if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }

@@ -17,7 +17,7 @@ data class PawnItem(
     val Amount: Double,
     val RenewIntAmount: Double?,
     val TotalAmount: Double?,
-    val TotalMonths: Double?
+    val TotalMonths: Int?
     ){
 
     // mapper function to convert DTO object to Domain data model

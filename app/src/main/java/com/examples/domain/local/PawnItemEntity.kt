@@ -19,7 +19,7 @@ data class PawnItemEntity(
     val Amount: Double,
     val RenewIntAmount: Double?,
     val TotalAmount: Double?,
-    val TotalMonths: Double?
+    val TotalMonths: Int?
     ){
     // mapper function to convert entity object to Domain data model
     fun toPawnItem(): PawnItem {

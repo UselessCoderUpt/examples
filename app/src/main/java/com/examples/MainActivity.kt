@@ -19,7 +19,6 @@ import com.examples.presentation.components.PawnOsListScreen
 import com.examples.presentation.ui.BottomNavBar
 import com.examples.presentation.ui.BottomNavDestination
 import com.examples.presentation.ui.NavGraph
-import com.examples.presentation.ui.PawnTodaysRenewalScreen
 import com.examples.ui.theme.ExamplesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
