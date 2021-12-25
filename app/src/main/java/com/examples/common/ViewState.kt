@@ -12,8 +12,3 @@ data class ViewState<T>(
     val error: String = ""
 )
 
-/*data class ViewState<T>(
-    val isLoading: Boolean = false,
-    val items: List<T> = emptyList(),
-    val error: String = ""
-)*/

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">examples</string>
-    <string name="Search">தேடு</string>
+    <string name="Search_Customer">Search Customer</string>
     <string name="Home">Home</string>
     <string name="Customer">Customer</string>
     <string name="Pledges">Pledges</string>
@@ -15,4 +15,6 @@
     <string name="lbl_Place">Place\t\t\t</string>
     <string name="lbl_ItemType">Type\t\t\t\t</string>
     <string name="lbl_ItemName">Item\t\t\t\t</string>
+    <string name="scroll_to_top">Scroll to top</string>
+    <string name="geetha_jewellery">கீதா ஜூவல்லரி</string>
 </resources>

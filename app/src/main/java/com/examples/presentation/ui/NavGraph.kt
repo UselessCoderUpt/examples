@@ -1,5 +1,7 @@
 package com.examples.presentation.ui
 
+
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -16,7 +18,10 @@ import com.examples.presentation.components.CustomerListScreen
 import com.examples.presentation.components.HomeScreen
 import com.examples.presentation.components.PawnOsListScreen
 import com.examples.presentation.components.PawnTodaysRenewalScreen
+import com.examples.R
 
+
+@ExperimentalAnimationApi
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
@@ -27,18 +32,7 @@ fun NavGraph() {
         BottomNavDestination.TodaysRenewalScreen
     )
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Ramesh Jewellery",
-                        color = MaterialTheme.colors.onPrimary,
-                        //fontStyle = MaterialTheme.typography.h2
-                    )
-                },
-                backgroundColor = MaterialTheme.colors.primary,
-            )
-        },
+
         bottomBar = {
             BottomNavigation {
                 val backStackEntry by navController.currentBackStackEntryAsState()
@@ -68,23 +62,30 @@ fun NavGraph() {
             }
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = BottomNavDestination.HomeScreen.route,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = BottomNavDestination.HomeScreen.route) {
-                HomeScreen(navController = navController)
+
+
+            NavHost(
+                navController = navController,
+                startDestination = BottomNavDestination.HomeScreen.route,
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                composable(route = BottomNavDestination.HomeScreen.route) {
+                    HomeScreen(navController = navController)
+                }
+                composable(route = BottomNavDestination.CustomerScreen.route) {
+                    CustomerListScreen(navController = navController)
+                }
+                composable(route = BottomNavDestination.PawnOsListScreen.route) {
+                    PawnOsListScreen(navController = navController)
+                }
+                composable(route = BottomNavDestination.TodaysRenewalScreen.route) {
+                    PawnTodaysRenewalScreen(navController = navController)
+                }
             }
-            composable(route = BottomNavDestination.CustomerScreen.route) {
-                CustomerListScreen(navController = navController)
-            }
-            composable(route = BottomNavDestination.PawnOsListScreen.route) {
-                PawnOsListScreen(navController = navController)
-            }
-            composable(route = BottomNavDestination.TodaysRenewalScreen.route) {
-                PawnTodaysRenewalScreen(navController = navController)
-            }
-        }
+
+
+
+
+
     }
 }

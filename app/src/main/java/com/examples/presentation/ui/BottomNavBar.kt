@@ -40,8 +40,8 @@ fun BottomNavBar(
         BottomNavDestination.TodaysRenewalScreen
     )
 
-    var SCALE = if (selected) 1.5f else 1f
-    var COLOR = if (selected) Constants.COLOR_SELECTED else Constants.COLOR_NORMAL
+    //var SCALE = if (selected) 1.5f else 1f
+    //var COLOR = if (selected) Constants.COLOR_SELECTED else Constants.COLOR_NORMAL
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
