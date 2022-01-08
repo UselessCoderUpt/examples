@@ -18,9 +18,4 @@ interface IPawnRepository {
     suspend fun insertTodaysRenewal(pawnItems: List<PawnItem>)
     suspend fun deleteTodaysRenewal(loanNo: Int)
     suspend fun getTodaysRenewalList(): Flow<Resource<List<PawnItem>>>
-
-    //Customer related members
-    suspend fun insertCustomer(customers: List<Customer>)
-    suspend fun deleteCustomer(mobileNo: String)
-    suspend fun getCustomers(): Flow<Resource<List<Customer>>>
 }

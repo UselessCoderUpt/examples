@@ -5,12 +5,16 @@ import com.examples.common.Constants
 import com.examples.common.Resource
 import com.examples.domain.data.Customer
 import com.examples.domain.data.PawnItem
+import com.examples.domain.local.CustomerEntity
 import com.examples.domain.local.IPawnDao
 import com.examples.network.IPawnApi
 import com.examples.network.data.toCustomer
 import com.examples.network.data.toPawnItem
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -21,7 +25,7 @@ class PawnRepositoryImpl @Inject constructor(
 
     //OS pawn items related member implementation
     override suspend fun insertOsPawnItem(pawnItems: List<PawnItem>) {
-        pawnDao.insertOsPawnItem(pawnItems.map { it.toPawnItemEntity()})
+        pawnDao.insertOsPawnItem(pawnItems.map { it.toPawnItemEntity() })
     }
 
     override suspend fun deleteOsPawnItem(loanNo: Int) {
@@ -50,7 +54,7 @@ class PawnRepositoryImpl @Inject constructor(
 
     //Today's Renewal items related member implementation
     override suspend fun insertTodaysRenewal(pawnItems: List<PawnItem>) {
-        pawnDao.insertTodaysRenewal(pawnItems.map{ it.toTodaysRenewalEntity()})
+        pawnDao.insertTodaysRenewal(pawnItems.map { it.toTodaysRenewalEntity() })
     }
 
     override suspend fun deleteTodaysRenewal(loanNo: Int) {
@@ -76,53 +80,4 @@ class PawnRepositoryImpl @Inject constructor(
             )
         }
     }
-
-    //Customer related member implementation
-    override suspend fun insertCustomer(customers: List<Customer>) {
-        pawnDao.insertCustomer(customers.map { it.toCustomerEntity()})
-    }
-
-    override suspend fun deleteCustomer(mobileNo: String) {
-        pawnDao.deleteCustomer(mobileNo)
-    }
-
-    override suspend fun getCustomers(): Flow<Resource<List<Customer>>> = flow {
-        Log.d(Constants.TAG, "Inside getCustomers repo")
-
-        var customers = pawnDao.getCustomers().map { it.toCustomer() }
-        Log.d(Constants.TAG, "Customer count from dao" + customers.size)
-
-        emit(Resource.Loading(customers))
-        try {
-            Log.d(Constants.TAG, "Inside getCustomers repo")
-
-            //convert each response dto to data model
-            customers = pawnApi.getCustomers().response!!.map { it.toCustomer() }
-            emit(Resource.Success(customers))
-        } catch (e: Exception) {
-            Log.d(Constants.TAG, "UC Error" + e.message.toString())
-            emit(
-                Resource.Error(
-                    message = e.localizedMessage ?: "Unexpected error occurred!",
-                    data = customers
-                )
-            )
-        }
-    }
-
-    /*suspend fun getBlogs(): kotlinx.coroutines.flow.Flow<DataState<List<Blog>>> = flow {
-        emit(DataState.Loading)
-        delay(1000)
-        try{
-            val networkBlogs = blogRetrofit.get()
-            val blogs = networkMapper.mapFromEntityList(networkBlogs)
-            for(blog in blogs){
-                blogDao.insert(cacheMapper.mapToEntity(blog))
-            }
-            val cachedBlogs = blogDao.get()
-            emit(DataState.Success(cacheMapper.mapFromEntityList(cachedBlogs)))
-        }catch (e: Exception){
-            emit(DataState.Error(e))
-        }
-    } */
 }

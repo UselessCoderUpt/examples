@@ -1,5 +1,6 @@
 package com.examples.network
 
+import com.examples.BuildConfig
 import com.examples.network.data.CustomerResponse
 import com.examples.network.data.PawnResponse
 import retrofit2.http.GET
@@ -7,19 +8,19 @@ import retrofit2.http.GET
 interface IPawnApi {
 
     //Fetches pawn items that are not released to till date
-    //https://script.google.com/macros/s/AKfycbw6bVFuM-tKXDW5xwMQxs53_q7oN58G1P2L_6U5RKzV_vQljM6tCOqx8VhZ9FVyX5dZ/exec
-    @GET("AKfycbw6bVFuM-tKXDW5xwMQxs53_q7oN58G1P2L_6U5RKzV_vQljM6tCOqx8VhZ9FVyX5dZ/exec")
-//    suspend fun getOsPawnItems(): List<PawnItemDto>
+    @GET(BuildConfig.API_KEY_PAWNITEMS)
     suspend fun getOsPawnItems(): PawnResponse
 
     //Fetches outstanding renewal list that are pending as on last year's todays date
-    //https://script.google.com/macros/s/AKfycbx8l3pWvjSvTVaWO2ibNAULJcwBKFHXnFAVZ9lssBUKCmYxab52DCZ6q8hxaRmA2GYR/exec
-    @GET("AKfycbx8l3pWvjSvTVaWO2ibNAULJcwBKFHXnFAVZ9lssBUKCmYxab52DCZ6q8hxaRmA2GYR/exec")
+    @GET(BuildConfig.API_KEY_TODAYSOS)
     suspend fun getTodaysRenewalList(): PawnResponse
 
-    //TODO: Customer list to be implemented
-
-    //https://script.google.com/macros/s/AKfycbxQwhTWkc_GnxTkRanGFOJs0j6C-wX3a9nXIUM93jRWm0PVWNfMDuMZGWepYtks_Zam/exec
-    @GET("AKfycbxQwhTWkc_GnxTkRanGFOJs0j6C-wX3a9nXIUM93jRWm0PVWNfMDuMZGWepYtks_Zam/exec")
+    @GET(BuildConfig.API_KEY_CUSTOMERS)
     suspend fun getCustomers(): CustomerResponse
+
+    /*suspend fun allPlants(): List<Plant> = withContext(Dispatchers.Default) {
+        delay(1500)
+        val result = sunflowerService.getAllPlants()
+        result.shuffled()
+    }*/
 }

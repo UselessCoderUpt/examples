@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
 @Composable
-fun CustomerListScreen(
+fun CustomerListUI(
     navController: NavController,
     viewModel: CustomerListViewModel = hiltViewModel()
 ) {
@@ -145,14 +145,14 @@ fun CustomerListScreen(
             if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
-            CustomerList(navController = navController, state.items)
+            CustomerContent(navController = navController, state.items)
         }
     }
 }
 
 @ExperimentalAnimationApi
 @Composable
-fun CustomerList(
+fun CustomerContent(
     navController: NavController,
     customers: List<Customer> = emptyList()
 ) {

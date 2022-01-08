@@ -16,24 +16,49 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
-class CustomerListViewModel @Inject constructor(
+class CustomerViewModel @Inject constructor(
     private val getCustomerUC: GetCustomerUC
 ) : ViewModel() {
 
+    //private val _myUiState = MutableStateFlow<Result<UiState>>(Result.Loading)
+    //val myUiState: StateFlow<Result<UiState>> = _myUiState
+
     val query = mutableStateOf("") //for search persistence
+
     private val _state = mutableStateOf(ViewState<Customer>())
     val state: State<ViewState<Customer>> = _state
+
     private var cachedCustomers: List<Customer>? = emptyList()
     private var isSearched = mutableStateOf(false)
 
     init {
+        //lifecycleScope.launch{}
        // viewModelScope.launch {
+        //repeatOnLifeCycle(Lifecycle.State.STARTED)
             getCustomers()
        // }
     }
 
+
+
+
+
+/*
+private fun getCust(){
+    val result: StateFlow<Result<UiState>> = flow {
+        emit(repository.fetchItem())
+    }.stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribed(5000), // Or Lazily because it's a one-shot
+        initialValue = Result.Loading
+    )
+}
+*/
     private fun getCustomers() {
+        //lifecycleScope
+
         getCustomerUC().onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -76,28 +101,4 @@ class CustomerListViewModel @Inject constructor(
             _state.value = ViewState(items = results ?: emptyList())
         }
     }
-
-/*
-//REF: https://developer.android.com/codelabs/kotlin-coroutines#10
-//create abstractions like this that encapsulate repeated logic!
-    private fun launchDataLoad(block: suspend () -> Unit): Job {
-        return viewModelScope.launch {
-            try {
-                _spinner.value = true
-                block()
-            } catch (error: TitleRefreshError) {
-                _snackBar.value = error.message
-            } finally {
-                _spinner.value = false
-            }
-        }
-    }
-
-    fun getCustomers() {
-        launchDataLoad {
-            repository.getCustomers()
-        }
-    }
-*/
-
 }

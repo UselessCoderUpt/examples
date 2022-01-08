@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 object Constants {
-    const val BASE_URL = "https://script.google.com/macros/s/"
     const val TAG = "Rj"
      val navBarItems = arrayOf(
          Icons.Outlined.Home,

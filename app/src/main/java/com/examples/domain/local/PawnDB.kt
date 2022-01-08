@@ -16,6 +16,7 @@ abstract class PawnDB : RoomDatabase() {
 
     //abstract val pawnDao: IPawnDao
     abstract fun getPawnDao(): IPawnDao
+    abstract fun getCustomerDao(): ICustomerDao
 
     companion object {
         @Volatile

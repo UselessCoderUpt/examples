@@ -19,6 +19,12 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField("String", "API_KEY_PAWNITEMS", API_KEY_PAWNITEMS)
+        buildConfigField("String", "API_KEY_TODAYSOS", API_KEY_TODAYSOS)
+        buildConfigField("String", "API_KEY_CUSTOMERS", API_KEY_CUSTOMERS)
+        buildConfigField("String", "BASE_URL", BASE_URL)
+
     }
 
     buildTypes {
@@ -68,7 +74,7 @@ dependencies {
 
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
- // Compose dependencies
+    // Coroutine scope for view models
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
     implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
     implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"
@@ -94,10 +100,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version" // LiveData
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version" //LifecycleScope
 
-    //couroutine
-    def couroutine_version = "1.6.0-RC"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$couroutine_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$couroutine_version"
+    //coroutine
+    def coroutine_version = "1.6.0-RC"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     // Dagger Hilt
     def hilt_version = "2.40.4"

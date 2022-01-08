@@ -9,20 +9,6 @@ import androidx.room.Query
 @Dao
 interface IPawnDao {
 
-    // Customer
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCustomer(customers: List<CustomerEntity>)
-
-    @Query("DELETE FROM Customer WHERE MobileNo = :mobileNo")
-    suspend fun deleteCustomer(mobileNo: String)
-
-    @Query("SELECT * FROM Customer ORDER BY Name ASC")
-    suspend fun getCustomers(): List<CustomerEntity>
-
-    @Query("SELECT * FROM Customer WHERE Name LIKE '%' || :name || '%'")
-    suspend fun getCustomersByName(name: String): List<CustomerEntity>
-
-
     // OS Pawn Item
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOsPawnItem(osPawnItems: List<PawnItemEntity>)
